@@ -45,14 +45,14 @@ async def get_all(db: Session=Depends(get_db)):
   return db.query(models.Product).all()
 
 @app.get("/product/{product_id}")
-async def get_product(product_id: int, db: Session=Depends(get_db)):
+async def get_product(product_id: str, db: Session=Depends(get_db)):
   product_model = db.query(models.Product).filter(models.Product.id == product_id).first()
   if product_model is not None:
     return product_model
   raise http_exception()
 
 @app.delete("/product/{product_id}")
-async def delete_product(product_id: int, db: Session=Depends(get_db)):
+async def delete_product(product_id: str, db: Session=Depends(get_db)):
   product_model = db.query(models.Product).filter(models.Product.id == product_id).first()
   if product_model is None:
     raise http_exception()
@@ -65,7 +65,7 @@ async def delete_product(product_id: int, db: Session=Depends(get_db)):
   }
 
 @app.put("/product/{product_id}")
-async def update_product(product_id: int, product: schemas.Product, db: Session=Depends(get_db)):
+async def update_product(product_id: str, product: schemas.Product, db: Session=Depends(get_db)):
   product_model = db.query(models.Product).filter(models.Product.id == product_id).first()
   if product_model is None:
     raise http_exception()
